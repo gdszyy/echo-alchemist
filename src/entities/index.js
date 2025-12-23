@@ -8,6 +8,4 @@ export { SpecialSlot } from './SpecialSlot.js';
 export { DropBall } from './DropBall.js';
 export { Enemy } from './Enemy.js';
 export { Projectile } from './Projectile.js';
-
-// 以下实体类待后续实现
-// export { CloneSpore } from './CloneSpore.js';
+export { CloneSpore } from './CloneSpore.js';

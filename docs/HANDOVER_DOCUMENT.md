@@ -35,11 +35,18 @@
   - `SpecialSlot.js` - 特殊槽位
   - `DropBall.js` - 收集阶段弹珠 (物理模拟、碰撞检测、材料收集)
   - `Enemy.js` - 敌人类 (含词缀系统、温度系统、状态效果、AI行为)
+  - `Projectile.js` - 战斗阶段子弹
+  - `CloneSpore.js` - 分裂孢子 (敌人分裂技能投射物)
 
 - ✅ 效果模块 (`src/effects/`)
   - `Particle.js` - 粒子系统
   - `FloatingText.js` - 浮动文字
   - `LightningBolt.js` - 闪电效果
+  - `CollectionBeam.js` - 收集光束 (材料收集视觉反馈)
+  - `Shockwave.js` - 冲击波 (爆炸和碰撞视觉效果)
+  - `LaserBeam.js` - 激光光束 (激光技能视觉效果)
+  - `EnergyOrb.js` - 能量球 (飞向UI的收集效果)
+  - `FireWave.js` - 火焰波 (火焰技能视觉效果)
 
 - ✅ UI 模块 (`src/ui/`)
   - `UIManager.js` - UI 管理器 (抽屉面板、选项卡切换、技能栏、技能点显示)
@@ -58,24 +65,11 @@
    - 原文件行号: 5643-9571
    - 包含游戏主循环、状态管理、阶段切换
 
-2. **迁移 Projectile 类** (`src/entities/Projectile.js`)
-   - 原文件行号: 4018-4745
-   - 战斗阶段子弹逻辑
-
-### 中优先级
-
-3. **迁移剩余效果类**
-   - `LaserBeam.js` (5049-5102)
-   - `CollectionBeam.js` (4944-4997)
-   - `Shockwave.js` (4998-5048)
-   - `EnergyOrb.js` (5146-5277)
-   - `FireWave.js` (5360-5391)
-
 ### 低优先级
 
-4. **添加单元测试**
-5. **性能优化**
-6. **移动端适配优化**
+2. **添加单元测试**
+3. **性能优化**
+4. **移动端适配优化**
 
 ## 关键设计决策
 
@@ -86,7 +80,6 @@
 ## 已知问题
 
 - [ ] 完整 Game 类尚未迁移，当前 main.js 中的 Game 是简化版
-- [ ] 部分效果类尚未实现
 
 ## 参考资源
 
