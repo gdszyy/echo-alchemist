@@ -33,6 +33,7 @@
 - ✅ 实体模块 (`src/entities/`)
   - `Peg.js` - 钉子类
   - `SpecialSlot.js` - 特殊槽位
+  - `DropBall.js` - 收集阶段弹珠 (物理模拟、碰撞检测、材料收集)
 
 - ✅ 效果模块 (`src/effects/`)
   - `Particle.js` - 粒子系统
@@ -53,24 +54,20 @@
    - 原文件行号: 5643-9571
    - 包含游戏主循环、状态管理、阶段切换
 
-2. **迁移 DropBall 类** (`src/entities/DropBall.js`)
-   - 原文件行号: 2620-3325
-   - 收集阶段弹珠物理模拟
-
-3. **迁移 Enemy 类** (`src/entities/Enemy.js`)
+2. **迁移 Enemy 类** (`src/entities/Enemy.js`)
    - 原文件行号: 3326-4017
    - 敌人逻辑、词缀系统
 
-4. **迁移 Projectile 类** (`src/entities/Projectile.js`)
+3. **迁移 Projectile 类** (`src/entities/Projectile.js`)
    - 原文件行号: 4018-4745
    - 战斗阶段子弹逻辑
 
 ### 中优先级
 
-5. **迁移 UIManager 类** (`src/ui/UIManager.js`)
+4. **迁移 UIManager 类** (`src/ui/UIManager.js`)
    - 原文件行号: 5392-5642
 
-6. **迁移剩余效果类**
+5. **迁移剩余效果类**
    - `LaserBeam.js` (5049-5102)
    - `CollectionBeam.js` (4944-4997)
    - `Shockwave.js` (4998-5048)
@@ -79,9 +76,9 @@
 
 ### 低优先级
 
-7. **添加单元测试**
-8. **性能优化**
-9. **移动端适配优化**
+6. **添加单元测试**
+7. **性能优化**
+8. **移动端适配优化**
 
 ## 关键设计决策
 
