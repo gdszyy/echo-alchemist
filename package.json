@@ -1,0 +1,25 @@
+{
+  "name": "echo-alchemist",
+  "version": "2.0.0",
+  "description": "回聲煉金師 - HTML5 弹珠类 Roguelike 游戏",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint src/**/*.js"
+  },
+  "keywords": [
+    "game",
+    "html5",
+    "canvas",
+    "roguelike",
+    "pinball"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "eslint": "^8.56.0"
+  }
+}
