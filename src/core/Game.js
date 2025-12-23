@@ -1268,29 +1268,43 @@ export class Game {
         this.stateBeforeRelic = this.phase; 
 
         // --- 配置权重 ---
-        const RARITY_WEIGHTS = CONFIG.balance.relicRarityWright
+        // 修复拼写错误: relicRarityWright -> relicRarityWeight
+        const RARITY_WEIGHTS = CONFIG.balance.relicRarityWeight || {
+            'common': 60,
+            'rare': 30,
+            'legendary': 10,
+            'cursed': 5
+        };
 
         // 2. 准备遗物池
         // 过滤掉玩家已经拥有的遗物 (this.ownedRelics)
-        let pool = RELIC_DB.filter(r => !this.ownedRelics.includes(r.id));
+        // 添加防御性检查，确保 RELIC_DB 存在
+        let pool = (RELIC_DB || []).filter(r => r && r.id && !this.ownedRelics.includes(r.id));
         
         // 如果池子空了（全收集了），就给一些保底的或者是空的
         if (pool.length === 0) {
             showToast("已收集所有遗物！");
-            this.closeRelicSelection(); // 或者给个分数奖励
+            if (typeof this.closeRelicSelection === 'function') {
+                this.closeRelicSelection();
+            }
             return;
         }
 
         const choices = [];
         
         // 3. 抽取 3 个遗物 (加权随机 & 不放回)
-        for(let i=0; i<CONFIG.gameplay.relicChoiceNum; i++) {
+        const choiceNum = CONFIG.gameplay.relicChoiceNum || 3;
+        for(let i=0; i<choiceNum; i++) {
             if(pool.length === 0) break;
 
             // A. 计算当前临时池子的总权重
             let totalWeight = 0;
             pool.forEach(r => {
-                totalWeight += (RARITY_WEIGHTS[r.rarity] || 10); // 默认权重10
+                if (r && r.rarity) {
+                    totalWeight += (RARITY_WEIGHTS[r.rarity] || 10); // 默认权重10
+                } else {
+                    totalWeight += 10;
+                }
             });
 
             // B. 生成随机数 [0, totalWeight)
@@ -1299,7 +1313,8 @@ export class Game {
 
             // C. 遍历寻找命中的遗物
             for (let j = 0; j < pool.length; j++) {
-                const weight = RARITY_WEIGHTS[pool[j].rarity] || 10;
+                const r = pool[j];
+                const weight = (r && r.rarity) ? (RARITY_WEIGHTS[r.rarity] || 10) : 10;
                 randomVal -= weight;
                 if (randomVal <= 0) {
                     selectedIdx = j;
