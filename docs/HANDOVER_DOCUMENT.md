@@ -96,7 +96,7 @@
 
 ## 参考资源
 
-- 原始文件: `/home/ubuntu/upload/echoAlchemistV2.0.html`
+- 原始文件: `docs/reference/echoAlchemistV2.0.original.html`
 - 架构图: `/home/ubuntu/upload/04_triangle_architecture.mmd`
 - 工作理念: `/home/ubuntu/upload/创新工作流与核心理念.md`
 

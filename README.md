@@ -75,6 +75,9 @@ npm run preview
 
 详见 `docs/.knowledge/` 目录下的文档：
 
+- `PM_AGENT_README.md` - **项目管理 Agent 必读**
+- `EXECUTION_AGENT_README.md` - **执行 Agent 必读**
+
 - `PROJECT_STRUCTURE.md` - 项目结构说明
 - `CODING_STANDARDS.md` - 编码规范
 - `GAME_MECHANICS.md` - 游戏机制说明
