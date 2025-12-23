@@ -10,10 +10,13 @@ import json
 
 # Manus API 配置
 MANUS_API_BASE = "https://api.manus.ai/v1"
-MANUS_API_KEY = os.environ.get("MANUS_API_KEY")
+MANUS_API_KEY = "sk-Uoa0Zeqa00SJseTT2HouC5azQ0QjIBgNeu4xo7Mb0Z7zyGPWo-XW4e9XYbXcnX6hAi4GXALz1zknai2QFx42pqPjtlf2"
 
-if not MANUS_API_KEY:
-    raise ValueError("请设置环境变量 MANUS_API_KEY")
+# 连接器 ID
+CONNECTOR_IDS = {
+    "linear": "982c169d-0c89-4dbd-95fd-30b49cc2f71e",
+    "github": "bbb0df76-66bd-4a24-ae4f-2aac4750d90b"
+}
 
 def dispatch_task(issue_id: str, issue_url: str, issue_title: str, issue_description: str):
     """
@@ -60,9 +63,9 @@ def dispatch_task(issue_id: str, issue_url: str, issue_title: str, issue_descrip
     # 构造请求
     payload = {
         "prompt": prompt,
-        "agentProfile": "manus-1.6-max",
+        "agentProfile": "manus-1.6",
         "taskMode": "agent",
-        "connectors": ["github", "linear"]
+        "connectors": [CONNECTOR_IDS["github"], CONNECTOR_IDS["linear"]]
     }
     
     headers = {
@@ -84,29 +87,21 @@ def dispatch_task(issue_id: str, issue_url: str, issue_title: str, issue_descrip
 if __name__ == "__main__":
     # 示例：分派 VOI-50 任务
     result = dispatch_task(
-        issue_id="VOI-50",
-        issue_url="https://linear.app/voidzyy/issue/VOI-50/高优先级-迁移-game-类到模块化结构",
-        issue_title="[高优先级] 迁移 Game 类到模块化结构",
+        issue_id="VOI-60",
+        issue_url="https://linear.app/voidzyy/issue/VOI-60/紧急-修复-vite-构建错误：缺少-terser-依赖",
+        issue_title="[紧急] 修复 Vite 构建错误：缺少 terser 依赖",
         issue_description="""
 ## 任务描述
 
-将原始 HTML 文件中的 Game 类迁移到 `src/core/Game.js`。
+修复 Vite 构建错误：缺少 terser 依赖。
 
 ## 原文件位置
 
-* 文件: `docs/reference/echoAlchemistV2.0.original.html`
-* 行号: 5643-9571
-
+* 文件: `docs/reference/echoAlchemistV2.0.original.html`* 文件: \`package.json\`
 ## 关键功能
-
-* 游戏主循环
-* 状态管理
-* 阶段切换 (选卡/收集/战斗/遗物)
-* 输入处理
-
-## 验收标准
-
-1. Game 类完整迁移
+* 在 \`package.json\` 的 \`devDependencies\` 中添加 \`terser\`。
+* 运行 \`npm install\` 或 \`pnpm install\` 安装依赖。
+* 验证 \`npm run build\` 能够成功构建。# 验收标准1. \`package.json\` 中包含 \`terser\` 依赖
 2. 保持与其他模块的正确导入关系
 3. 游戏可正常运行
 
