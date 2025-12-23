@@ -16,7 +16,7 @@ import { Vec2, showToast, Game } from './core/index.js';
 import { SoundManager } from './audio/SoundManager.js';
 
 // 导入实体
-import { Peg, SpecialSlot, DropBall, Enemy } from './entities/index.js';
+import { Peg, SpecialSlot, DropBall, Enemy, Projectile } from './entities/index.js';
 
 // 导入效果
 import { Particle, ParticleSystem, FloatingText, FloatingTextManager, LightningBolt, LightningManager } from './effects/index.js';
@@ -43,11 +43,11 @@ window.Peg = Peg;
 window.SpecialSlot = SpecialSlot;
 window.DropBall = DropBall;
 window.Enemy = Enemy;
+window.Projectile = Projectile;
 
 // 注意：以下类尚未迁移，需要从原始 HTML 中加载或后续迁移
 // 这些类在 Game 类中被引用，暂时使用占位类或从 window 获取
 // - UIManager
-// - Projectile
 // - CloneSpore
 // - Shockwave
 // - EnergyOrb
@@ -63,18 +63,6 @@ class UIManager {
         const el = document.getElementById('skill-points-num');
         if (el) el.innerText = points;
     }
-}
-
-class Projectile {
-    constructor(x, y, config) {
-        this.pos = new Vec2(x, y);
-        this.vel = new Vec2(0, -5);
-        this.config = config;
-        this.active = true;
-        this.chainHistory = [];
-    }
-    update() {}
-    draw(ctx) {}
 }
 
 class CloneSpore {
@@ -133,7 +121,6 @@ class CollectionBeam {
 
 // 导出占位类到全局
 window.UIManager = UIManager;
-window.Projectile = Projectile;
 window.CloneSpore = CloneSpore;
 window.Shockwave = Shockwave;
 window.EnergyOrb = EnergyOrb;
@@ -142,11 +129,12 @@ window.CollectionBeam = CollectionBeam;
 
 // 创建游戏实例
 // 注意：完整的 Game 类已从原始代码迁移
-// 但由于依赖的其他类（如 Projectile 等）尚未完全迁移
+// Projectile 类已完成迁移
+// 但由于依赖的其他类（如 CloneSpore 等）尚未完全迁移
 // 游戏可能无法完全正常运行，需要后续继续迁移工作
 const game = new Game();
 window.game = game;
 
-console.log('Echo Alchemist initialized with migrated Game class');
+console.log('Echo Alchemist initialized with migrated Game class and Projectile class');
 
-export { game, Game, Enemy, DropBall };
+export { game, Game, Enemy, DropBall, Projectile };
