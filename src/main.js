@@ -16,7 +16,7 @@ import { Vec2, showToast, Game } from './core/index.js';
 import { SoundManager } from './audio/SoundManager.js';
 
 // 导入实体
-import { Peg, SpecialSlot } from './entities/index.js';
+import { Peg, SpecialSlot, DropBall, Enemy } from './entities/index.js';
 
 // 导入效果
 import { Particle, ParticleSystem, FloatingText, FloatingTextManager, LightningBolt, LightningManager } from './effects/index.js';
@@ -41,12 +41,12 @@ window.LightningBolt = LightningBolt;
 // 导出实体类到全局 (兼容原有代码)
 window.Peg = Peg;
 window.SpecialSlot = SpecialSlot;
+window.DropBall = DropBall;
+window.Enemy = Enemy;
 
 // 注意：以下类尚未迁移，需要从原始 HTML 中加载或后续迁移
 // 这些类在 Game 类中被引用，暂时使用占位类或从 window 获取
 // - UIManager
-// - DropBall
-// - Enemy
 // - Projectile
 // - CloneSpore
 // - Shockwave
@@ -63,44 +63,6 @@ class UIManager {
         const el = document.getElementById('skill-points-num');
         if (el) el.innerText = points;
     }
-}
-
-class DropBall {
-    constructor(x, y, def, session) {
-        this.pos = new Vec2(x, y);
-        this.vel = new Vec2(0, 2);
-        this.def = def;
-        this.session = session;
-        this.radius = 12;
-        this.active = true;
-        this.canTriggerSplitSlot = true;
-        this.isRainbowShard = false;
-    }
-    update() { return null; }
-    draw(ctx) {}
-}
-
-class Enemy {
-    constructor(x, y, w, h, hp, maxHp) {
-        this.pos = new Vec2(x, y);
-        this.width = w;
-        this.height = h;
-        this.hp = hp;
-        this.maxHp = maxHp;
-        this.active = true;
-        this.affixes = [];
-        this.temp = 0;
-        this.dropTargetY = y;
-        this.type = 'normal';
-    }
-    takeDamage(dmg) { 
-        this.hp -= dmg; 
-        if (this.hp <= 0) { this.active = false; return true; }
-        return false;
-    }
-    applyTemp(amount) { this.temp += amount; }
-    update() {}
-    draw(ctx) {}
 }
 
 class Projectile {
@@ -171,8 +133,6 @@ class CollectionBeam {
 
 // 导出占位类到全局
 window.UIManager = UIManager;
-window.DropBall = DropBall;
-window.Enemy = Enemy;
 window.Projectile = Projectile;
 window.CloneSpore = CloneSpore;
 window.Shockwave = Shockwave;
@@ -182,11 +142,11 @@ window.CollectionBeam = CollectionBeam;
 
 // 创建游戏实例
 // 注意：完整的 Game 类已从原始代码迁移
-// 但由于依赖的其他类（如 Enemy, DropBall 等）尚未完全迁移
+// 但由于依赖的其他类（如 Projectile 等）尚未完全迁移
 // 游戏可能无法完全正常运行，需要后续继续迁移工作
 const game = new Game();
 window.game = game;
 
 console.log('Echo Alchemist initialized with migrated Game class');
 
-export { game, Game };
+export { game, Game, Enemy, DropBall };
