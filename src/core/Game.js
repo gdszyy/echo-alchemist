@@ -300,8 +300,8 @@ export class Game {
         // 静音按钮
         const muteBtn = document.getElementById('mute-btn'); 
         muteBtn.onclick = () => { 
-            audio.resume(); // 确保音频上下文已激活
-            const isMuted = audio.toggleMute(); 
+            window.audio.resume(); // 确保音频上下文已激活
+            const isMuted = window.audio.toggleMute(); 
             muteBtn.innerText = isMuted ? '🔇' : '🔊'; 
         };
         //  陀螺仪权限申请与监听
