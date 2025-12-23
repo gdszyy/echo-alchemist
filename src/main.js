@@ -21,6 +21,9 @@ import { Peg, SpecialSlot, DropBall, Enemy, Projectile } from './entities/index.
 // 导入效果
 import { Particle, ParticleSystem, FloatingText, FloatingTextManager, LightningBolt, LightningManager } from './effects/index.js';
 
+// 导入 UI 模块
+import { UIManager } from './ui/index.js';
+
 // 全局音频实例
 const audio = new SoundManager();
 
@@ -45,9 +48,11 @@ window.DropBall = DropBall;
 window.Enemy = Enemy;
 window.Projectile = Projectile;
 
+// 导出 UIManager 到全局 (兼容原有代码)
+window.UIManager = UIManager;
+
 // 注意：以下类尚未迁移，需要从原始 HTML 中加载或后续迁移
 // 这些类在 Game 类中被引用，暂时使用占位类或从 window 获取
-// - UIManager
 // - CloneSpore
 // - Shockwave
 // - EnergyOrb
@@ -55,16 +60,6 @@ window.Projectile = Projectile;
 // - CollectionBeam
 
 // 占位类定义 (用于兼容，待后续迁移)
-class UIManager {
-    constructor() {
-        console.log('UIManager placeholder initialized');
-    }
-    updateSkillPoints(points) {
-        const el = document.getElementById('skill-points-num');
-        if (el) el.innerText = points;
-    }
-}
-
 class CloneSpore {
     constructor(sx, sy, tx, ty, callback) {
         this.startX = sx;
@@ -120,7 +115,6 @@ class CollectionBeam {
 }
 
 // 导出占位类到全局
-window.UIManager = UIManager;
 window.CloneSpore = CloneSpore;
 window.Shockwave = Shockwave;
 window.EnergyOrb = EnergyOrb;
@@ -130,11 +124,12 @@ window.CollectionBeam = CollectionBeam;
 // 创建游戏实例
 // 注意：完整的 Game 类已从原始代码迁移
 // Projectile 类已完成迁移
+// UIManager 类已完成迁移
 // 但由于依赖的其他类（如 CloneSpore 等）尚未完全迁移
 // 游戏可能无法完全正常运行，需要后续继续迁移工作
 const game = new Game();
 window.game = game;
 
-console.log('Echo Alchemist initialized with migrated Game class and Projectile class');
+console.log('Echo Alchemist initialized with migrated Game class, Projectile class, and UIManager class');
 
-export { game, Game, Enemy, DropBall, Projectile };
+export { game, Game, Enemy, DropBall, Projectile, UIManager };
