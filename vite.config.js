@@ -27,5 +27,19 @@ export default defineConfig({
   },
   preview: {
     port: 4173
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        'tests/',
+        '*.config.js'
+      ]
+    }
   }
 });
