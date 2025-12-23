@@ -1399,7 +1399,24 @@ export class Game {
             showToast(`已解鎖相關屬性!`);
         }
 
+        // [修复] 显示确认按钮，而不是立即关闭
+        const confirmBtn = document.getElementById('confirm-relic-btn');
+        if (confirmBtn) {
+            confirmBtn.style.display = 'block';
+        }
+        
+        // 禁用所有遗物卡片的点击
+        const relicCards = document.querySelectorAll('.relic-card');
+        relicCards.forEach(card => {
+            card.style.pointerEvents = 'none';
+            card.style.opacity = '0.6';
+        });
+    }
 
+    /**
+     * 确认遗物选择并继续
+     */
+    confirmRelicSelection() {
         this.closeRelicSelection();
     }
 
@@ -1420,6 +1437,19 @@ export class Game {
         overlay.style.display = 'none';
         overlay.classList.remove('active-phase');
         overlay.classList.add('hidden-phase');
+        
+        // [修复] 重置确认按钮状态
+        const confirmBtn = document.getElementById('confirm-relic-btn');
+        if (confirmBtn) {
+            confirmBtn.style.display = 'none';
+        }
+        
+        // 重置遗物卡片状态
+        const relicCards = document.querySelectorAll('.relic-card');
+        relicCards.forEach(card => {
+            card.style.pointerEvents = 'auto';
+            card.style.opacity = '1';
+        });
         
         // [核心修复] 根据打开前的状态决定去向
         if (this.stateBeforeRelic === 'gathering') {
