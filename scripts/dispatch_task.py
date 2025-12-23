@@ -63,7 +63,7 @@ def dispatch_task(issue_id: str, issue_url: str, issue_title: str, issue_descrip
     # 构造请求
     payload = {
         "prompt": prompt,
-        "agentProfile": "manus-1.6",
+        "agentProfile": "manus-1.6-lite",
         "taskMode": "agent",
         "connectors": [CONNECTOR_IDS["github"], CONNECTOR_IDS["linear"]]
     }

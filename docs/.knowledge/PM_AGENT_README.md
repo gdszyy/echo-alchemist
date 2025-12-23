@@ -108,7 +108,7 @@ task_payload = {
 | 参数 | 建议值 | 说明 |
 | :--- | :--- | :--- |
 | `prompt` | *[引用 Linear Issue]* | 必须清晰地将任务与一个 Linear Issue 关联。 |
-| `agentProfile` | `manus-1.6-max` | 代码重构是复杂任务，建议使用能力最强的模型。 |
+| `agentProfile` | `manus-1.6-lite` | 默认使用性价比最高的模型。仅在极复杂任务时使用 `manus-1.6` 或 `manus-1.6-max`。 |
 | `taskMode` | `agent` | 必须使用智能体模式，以允许执行 Agent 使用文件系统、shell 等工具。 |
 | `connectors` | `["github", "linear"]` | **必须同时启用 GitHub 和 Linear 连接器**。 |
 
