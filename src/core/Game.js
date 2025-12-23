@@ -230,8 +230,9 @@ export class Game {
         for(let i=0; i<CONFIG.gameplay.startRows; i++) { 
             this.spawnEnemyRowAt(startY + i * this.enemyHeight); 
         }
-        this.showRelicSelection();
-        // this.initSelectionPhase(); // 进入弹珠选择阶段
+        // [VOI-63 修复] 游戏开始时直接进入选弹珠阶段，而不是遗物选择
+        // this.showRelicSelection();
+        this.initSelectionPhase(); // 进入弹珠选择阶段
     }
     resetGame() {
         this.gameOver = false;
@@ -256,12 +257,12 @@ export class Game {
         this.skillPoints = 0; // 重置
         this.ui.updateSkillPoints(this.skillPoints);
 
-        // 重新生成初始敵人
+        // 重新生成初始敌人
         this.spawnEnemyRow(CONFIG.gameplay.startRows);
         
-        // 進入選擇階段
-        // this.initSelectionPhase();
-        this.showRelicSelection();
+        // [VOI-63 修复] 重置游戏时直接进入选弹珠阶段
+        this.initSelectionPhase();
+        // this.showRelicSelection();
         // 重置 UI
         document.getElementById('combat-message').innerHTML = '';
         document.getElementById('score-num').innerText = '0';
