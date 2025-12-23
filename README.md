@@ -84,9 +84,13 @@ npm run preview
 
 ## 协作流程
 
-本项目采用 AI Agent 协作开发模式，通过 Linear 进行任务管理，GitHub 进行代码版本控制。
+本项目采用 AI Agent 协作开发模式，通过 **Linear** 进行任务管理，**GitHub** 进行代码版本控制，**Manus API** 进行任务分派。
 
-详见 `docs/HANDOVER_DOCUMENT.md`。
+**关键文档**：
+
+- `docs/HANDOVER_DOCUMENT.md` - 项目交接文档
+- `docs/workflows/TASK_DISPATCH_WORKFLOW.md` - **任务分派工作流**
+- `scripts/dispatch_task.py` - 任务分派脚本
 
 ## License
 

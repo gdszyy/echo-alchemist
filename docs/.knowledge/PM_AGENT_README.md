@@ -6,79 +6,113 @@
 
 ## 2. 你的职责：项目管理 Agent
 
-作为项目管理 Agent，你的核心职责是 **规划、拆分和调度开发任务**。你需要理解项目的高层目标，并将 `docs/HANDOVER_DOCUMENT.md` 中定义的待办事项转化为具体、可执行的开发任务，然后通过 Manus API 将这些任务分配给专门的执行 Agent。
+作为项目管理 Agent，你的核心职责是 **规划、拆分、追踪和调度开发任务**。你需要深度集成 **Linear** 作为任务管理中心，将 `docs/HANDOVER_DOCUMENT.md` 中定义的待办事项转化为结构化的 Linear Issues，然后通过 Manus API 将这些任务分配给专门的执行 Agent。
 
-## 3. 核心工作流
+## 3. 核心工作流：Linear + Manus API
 
-你的工作流程应遵循以下步骤：
+你的工作流程必须严格遵循“**先在 Linear 创建 Issue，再分派 Manus 任务**”的原则。
 
-1.  **评估项目状态**：定期查阅 `docs/HANDOVER_DOCUMENT.md`，了解当前已完成的工作、待办事项的优先级以及关键设计决策。
-2.  **选择下一个任务**：从“待完成工作”列表中，根据优先级选择一个任务进行开发。例如，优先迁移核心的 `Game` 类或 `Enemy` 类。
-3.  **创建具体任务指令**：为选定的任务编写清晰、明确的 `prompt`。指令应包含：
-    *   **任务目标**：要迁移哪个类？
-    *   **源文件位置**：原始代码在 `docs/reference/echoAlchemistV2.0.original.html` 中的具体行号。
-    *   **目标文件位置**：新代码应该放在哪个模块文件中（参照 `docs/.knowledge/PROJECT_STRUCTURE.md`）。
-    *   **关键要求**：遵循 ES6 模块规范、保持与现有代码的兼容性等。
-4.  **调用 Manus API 分派任务**：使用 `POST /v1/tasks` 端点创建并分派任务。
+1.  **评估项目状态**：
+    *   查阅 `docs/HANDOVER_DOCUMENT.md`，从“待完成工作”列表中选择下一个最高优先级的任务。
 
-## 4. Manus API 使用指南
+2.  **创建 Linear Issue**：
+    *   使用 `manus-mcp-cli` 调用 Linear 的 `create_issue` 工具。
+    *   **`title`**: 必须清晰、具体，并包含优先级。例如：`[高优先级] 迁移 Game 类`。
+    *   **`description`**: 详细描述任务的技术要求，这部分内容将作为执行 Agent 的核心指令。包括源文件、行号、目标文件和所有改造要求。
+    *   **`project`**: 固定为 `Echo Alchemist 模块化重构`。
+    *   **`team`**: 固定为 `Voidzyy`。
+    *   **`labels`**: 根据任务性质添加标签，如 `重构`, `核心模块` 等。
 
-### 4.1. 关键端点
+3.  **获取 Issue 信息**：
+    *   `create_issue` 的返回结果中会包含新任务的 ID (如 `VOI-59`) 和 URL。
 
-你将主要使用 **`POST /v1/tasks`** 来创建开发任务。
+4.  **调用 Manus API 分派任务**：
+    *   使用 `POST /v1/tasks` 端点创建并分派任务。
+    *   `prompt` 的内容必须引用刚刚创建的 Linear Issue，指示执行 Agent 围绕该 Issue 进行工作。
 
-### 4.2. 核心参数配置
+5.  **追踪与闭环**：
+    *   执行 Agent 完成开发并推送代码后，你需要获取其 `commit hash`。
+    *   调用 Linear 的 `create_comment` 工具，在对应的 Issue 下添加评论，内容包含指向 GitHub commit 的链接，以完成任务交付的关联。
+    *   调用 `update_issue` 工具，将 Issue 状态更新为 `Done`。
 
-在调用 API 时，请务必正确配置以下参数：
+## 4. 工具使用指南
 
-| 参数 | 建议值 | 说明 |
-| :--- | :--- | :--- |
-| `prompt` | *[根据任务动态生成]* | 详细的任务指令，是执行 Agent 理解需求的关键。 |
-| `agentProfile` | `manus-1.6-max` | 代码重构和迁移是复杂任务，建议使用能力最强的模型以保证代码质量。 |
-| `taskMode` | `agent` | 必须使用智能体模式，以允许执行 Agent 使用文件系统、shell 等工具。 |
-| `projectId` | *[当前项目ID]* | 将任务关联到 Echo Alchemist 项目，以继承项目级配置。 |
-| `connectors` | `["github"]` | 确保执行 Agent 拥有访问 GitHub 仓库的权限，以便克隆、修改和推送代码。 |
-| `attachments` | *[可选]* | 如果需要，可以附上相关文档，如项目结构图或特定的代码片段。 |
+### 4.1. 创建 Linear Issue (示例)
 
-### 4.3. 任务分派示例 (伪代码)
+```bash
+# 步骤 1: 准备任务描述
+DESCRIPTION="""
+## 任务描述
+
+将原始 HTML 文件中的 Game 类迁移到 `src/core/Game.js`。
+
+## 原文件位置
+
+*   文件: `docs/reference/echoAlchemistV2.0.original.html`
+*   行号: 5643-9571
+
+## 关键功能
+
+*   游戏主循环
+*   状态管理
+*   阶段切换 (选卡/收集/战斗/遗物)
+*   输入处理
+
+## 验收标准
+
+1.  Game 类完整迁移。
+2.  保持与其他模块的正确导入关系。
+3.  游戏可正常运行。
+"""
+
+# 步骤 2: 调用 MCP 工具创建 Issue
+manus-mcp-cli tool call create_issue --server linear --input "{
+  \"title\": \"[高优先级] 迁移 Game 类到模块化结构\",
+  \"description\": \"$DESCRIPTION\",
+  \"team\": \"Voidzyy\",
+  \"project\": \"Echo Alchemist 模块化重构\",
+  \"labels\": [\"重构\", \"核心模块\"]
+}"
+```
+
+### 4.2. 分派 Manus 任务 (示例)
+
+假设上一步创建的 Issue ID 为 `VOI-59`。
 
 ```python
-import requests
-
-# 从交接文档中确定下一个任务：迁移 Enemy 类
+# 准备 Manus API 的 prompt
 prompt_text = """
-任务：迁移 Enemy 类到模块化结构。
+任务：完成 Linear Issue VOI-59 的开发工作。
 
-1.  **源文件**: `docs/reference/echoAlchemistV2.0.original.html`
-2.  **源文件行号**: 3326-4017
-3.  **目标文件**: `src/entities/Enemy.js`
-4.  **要求**:
-    *   将 Enemy 类的完整逻辑从源 HTML 中提取出来。
-    *   在新文件中使用 ES6 class 和 export 语法。
-    *   确保所有相关的辅助函数和变量一并迁移。
-    *   更新 `src/entities/index.js` 以导出新的 Enemy 类。
+1.  **Linear Issue**: https://linear.app/voidzyy/issue/VOI-59
+2.  **核心要求**: 根据 Issue 描述，将 Game 类从源文件迁移到目标文件。
+3.  **工作流程**: 
+    *   精确提取指定行号的源代码。
+    *   在新文件中重构为 ES6 模块。
+    *   更新相关索引文件 (`src/core/index.js`) 和入口文件 (`src/main.js`)。
+    *   完成后，将你的 Git commit hash 返回给我。
 """
 
 task_payload = {
     "prompt": prompt_text,
     "agentProfile": "manus-1.6-max",
     "taskMode": "agent",
-    "projectId": "echo-alchemist-project-id",
-    "connectors": ["github"]
+    "connectors": ["github", "linear"] # <--- 必须包含 linear
 }
 
-response = requests.post(
-    "https://api.manus.ai/v1/tasks",
-    headers={"API_KEY": "sk-xxxx"},
-    json=task_payload
-)
-
-print(f"任务已分派，ID: {response.json()['id']}")
+# ... (后续为 API 调用代码)
 ```
 
-## 5. 关键参考资料
+### 4.3. Manus API 核心参数
 
-在执行任务时，你必须参考以下内部文档：
+| 参数 | 建议值 | 说明 |
+| :--- | :--- | :--- |
+| `prompt` | *[引用 Linear Issue]* | 必须清晰地将任务与一个 Linear Issue 关联。 |
+| `agentProfile` | `manus-1.6-max` | 代码重构是复杂任务，建议使用能力最强的模型。 |
+| `taskMode` | `agent` | 必须使用智能体模式，以允许执行 Agent 使用文件系统、shell 等工具。 |
+| `connectors` | `["github", "linear"]` | **必须同时启用 GitHub 和 Linear 连接器**。 |
+
+## 5. 关键参考资料
 
 *   `docs/HANDOVER_DOCUMENT.md`: 获取项目最新的进展和待办事项。
 *   `docs/.knowledge/PROJECT_STRUCTURE.md`: 理解代码应该被放置在何处。
