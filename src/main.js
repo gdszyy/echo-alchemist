@@ -10,7 +10,7 @@ import { CONFIG } from './config/index.js';
 import { RELIC_DB, SKILL_DB, MarbleDefinition } from './data/index.js';
 
 // 导入核心模块
-import { Vec2, showToast } from './core/index.js';
+import { Vec2, showToast, Game } from './core/index.js';
 
 // 导入音频
 import { SoundManager } from './audio/SoundManager.js';
@@ -19,7 +19,7 @@ import { SoundManager } from './audio/SoundManager.js';
 import { Peg, SpecialSlot } from './entities/index.js';
 
 // 导入效果
-import { ParticleSystem, FloatingTextManager, LightningManager } from './effects/index.js';
+import { Particle, ParticleSystem, FloatingText, FloatingTextManager, LightningBolt, LightningManager } from './effects/index.js';
 
 // 全局音频实例
 const audio = new SoundManager();
@@ -28,124 +28,165 @@ const audio = new SoundManager();
 window.CONFIG = CONFIG;
 window.RELIC_DB = RELIC_DB;
 window.SKILL_DB = SKILL_DB;
+window.MarbleDefinition = MarbleDefinition;
 window.Vec2 = Vec2;
 window.audio = audio;
 window.showToast = showToast;
 
-/**
- * 游戏主类
- * TODO: 从原始代码迁移 Game 类
- */
-class Game {
+// 导出效果类到全局 (兼容原有代码)
+window.Particle = Particle;
+window.FloatingText = FloatingText;
+window.LightningBolt = LightningBolt;
+
+// 导出实体类到全局 (兼容原有代码)
+window.Peg = Peg;
+window.SpecialSlot = SpecialSlot;
+
+// 注意：以下类尚未迁移，需要从原始 HTML 中加载或后续迁移
+// 这些类在 Game 类中被引用，暂时使用占位类或从 window 获取
+// - UIManager
+// - DropBall
+// - Enemy
+// - Projectile
+// - CloneSpore
+// - Shockwave
+// - EnergyOrb
+// - FireWave
+// - CollectionBeam
+
+// 占位类定义 (用于兼容，待后续迁移)
+class UIManager {
     constructor() {
-        this.canvas = document.getElementById('gameCanvas');
-        this.ctx = this.canvas.getContext('2d');
-        
-        // 初始化效果系统
-        this.particles = new ParticleSystem();
-        this.floatingTexts = new FloatingTextManager();
-        this.lightnings = new LightningManager();
-        
-        // 游戏状态
-        this.phase = 'title';
-        this.round = 1;
-        this.score = 0;
-        
-        // 绑定事件
-        this.bindEvents();
-        
-        // 调整画布大小
-        this.resize();
-        
-        console.log('Echo Alchemist initialized');
+        console.log('UIManager placeholder initialized');
     }
-
-    /**
-     * 绑定事件监听
-     */
-    bindEvents() {
-        window.addEventListener('resize', () => this.resize());
-        
-        this.canvas.addEventListener('click', (e) => {
-            audio.resume();
-            this.handleClick(e);
-        });
-        
-        this.canvas.addEventListener('touchstart', (e) => {
-            audio.resume();
-        });
-    }
-
-    /**
-     * 调整画布大小
-     */
-    resize() {
-        const container = document.getElementById('game-container');
-        this.canvas.width = container.clientWidth;
-        this.canvas.height = container.clientHeight;
-    }
-
-    /**
-     * 处理点击事件
-     * @param {MouseEvent} e - 鼠标事件
-     */
-    handleClick(e) {
-        const rect = this.canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        console.log(`Click at (${x}, ${y})`);
-        
-        // TODO: 实现点击逻辑
-    }
-
-    /**
-     * 游戏主循环
-     */
-    loop() {
-        this.update();
-        this.draw();
-        requestAnimationFrame(() => this.loop());
-    }
-
-    /**
-     * 更新游戏状态
-     */
-    update() {
-        this.particles.update();
-        this.floatingTexts.update();
-        this.lightnings.update();
-    }
-
-    /**
-     * 绘制游戏画面
-     */
-    draw() {
-        const ctx = this.ctx;
-        
-        // 清空画布
-        ctx.fillStyle = CONFIG.colors.bg;
-        ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // 绘制效果
-        this.particles.draw(ctx);
-        this.floatingTexts.draw(ctx);
-        this.lightnings.draw(ctx);
-    }
-
-    /**
-     * 开始游戏
-     */
-    start() {
-        this.loop();
+    updateSkillPoints(points) {
+        const el = document.getElementById('skill-points-num');
+        if (el) el.innerText = points;
     }
 }
 
+class DropBall {
+    constructor(x, y, def, session) {
+        this.pos = new Vec2(x, y);
+        this.vel = new Vec2(0, 2);
+        this.def = def;
+        this.session = session;
+        this.radius = 12;
+        this.active = true;
+        this.canTriggerSplitSlot = true;
+        this.isRainbowShard = false;
+    }
+    update() { return null; }
+    draw(ctx) {}
+}
+
+class Enemy {
+    constructor(x, y, w, h, hp, maxHp) {
+        this.pos = new Vec2(x, y);
+        this.width = w;
+        this.height = h;
+        this.hp = hp;
+        this.maxHp = maxHp;
+        this.active = true;
+        this.affixes = [];
+        this.temp = 0;
+        this.dropTargetY = y;
+        this.type = 'normal';
+    }
+    takeDamage(dmg) { 
+        this.hp -= dmg; 
+        if (this.hp <= 0) { this.active = false; return true; }
+        return false;
+    }
+    applyTemp(amount) { this.temp += amount; }
+    update() {}
+    draw(ctx) {}
+}
+
+class Projectile {
+    constructor(x, y, config) {
+        this.pos = new Vec2(x, y);
+        this.vel = new Vec2(0, -5);
+        this.config = config;
+        this.active = true;
+        this.chainHistory = [];
+    }
+    update() {}
+    draw(ctx) {}
+}
+
+class CloneSpore {
+    constructor(sx, sy, tx, ty, callback) {
+        this.startX = sx;
+        this.startY = sy;
+        this.targetX = tx;
+        this.targetY = ty;
+        this.callback = callback;
+        this.active = true;
+    }
+    update() {}
+    draw(ctx) {}
+}
+
+class Shockwave {
+    constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.radius = 0;
+        this.alpha = 1;
+    }
+    update(timeScale) { this.radius += 5 * timeScale; this.alpha -= 0.02 * timeScale; }
+    draw(ctx) {}
+}
+
+class EnergyOrb {
+    constructor(x, y) {
+        this.pos = new Vec2(x, y);
+        this.active = true;
+    }
+    update(timeScale) {}
+    draw(ctx) {}
+}
+
+class FireWave {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.active = true;
+    }
+    update(timeScale) {}
+    draw(ctx) {}
+}
+
+class CollectionBeam {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.active = true;
+    }
+    update() {}
+    draw(ctx) {}
+}
+
+// 导出占位类到全局
+window.UIManager = UIManager;
+window.DropBall = DropBall;
+window.Enemy = Enemy;
+window.Projectile = Projectile;
+window.CloneSpore = CloneSpore;
+window.Shockwave = Shockwave;
+window.EnergyOrb = EnergyOrb;
+window.FireWave = FireWave;
+window.CollectionBeam = CollectionBeam;
+
 // 创建游戏实例
+// 注意：完整的 Game 类已从原始代码迁移
+// 但由于依赖的其他类（如 Enemy, DropBall 等）尚未完全迁移
+// 游戏可能无法完全正常运行，需要后续继续迁移工作
 const game = new Game();
 window.game = game;
 
-// 启动游戏
-game.start();
+console.log('Echo Alchemist initialized with migrated Game class');
 
 export { game, Game };

@@ -6,5 +6,5 @@
 export { Vec2 } from './Vec2.js';
 export * from './utils.js';
 
-// Game 类待后续实现
-// export { Game } from './Game.js';
+// 导出 Game 类
+export { Game } from './Game.js';
