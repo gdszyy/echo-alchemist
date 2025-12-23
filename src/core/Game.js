@@ -23,35 +23,15 @@ import { Vec2, showToast } from './index.js';
 // import { SoundManager } from '../audio/SoundManager.js';
 
 // 导入实体
-import { Peg, SpecialSlot } from '../entities/index.js';
+import { Peg, SpecialSlot, DropBall, Enemy, Projectile, CloneSpore } from '../entities/index.js';
 
 // 导入效果
-import { Particle, FloatingText, LightningBolt } from '../effects/index.js';
+import { Particle, FloatingText, LightningBolt, Shockwave, EnergyOrb, FireWave, CollectionBeam } from '../effects/index.js';
 
-// 注意：以下类尚未迁移，从全局 window 对象获取
-// 这些类在 main.js 中定义或导入，并挂载到 window
-// - UIManager
-// - DropBall
-// - Enemy
-// - Projectile
-// - CloneSpore
-// - Shockwave
-// - EnergyOrb
-// - FireWave
-// - CollectionBeam
-// - audio (全局 SoundManager 实例)
-// - MarbleDefinition
+// 导入 UI 模块
+import { UIManager } from '../ui/index.js';
 
-// 从全局获取尚未迁移的类
-const UIManager = window.UIManager;
-const DropBall = window.DropBall;
-const Enemy = window.Enemy;
-const Projectile = window.Projectile;
-const CloneSpore = window.CloneSpore;
-const Shockwave = window.Shockwave;
-const EnergyOrb = window.EnergyOrb;
-const FireWave = window.FireWave;
-const CollectionBeam = window.CollectionBeam;
+// 音频实例从全局获取 (在 main.js 中创建并挂载到 window)
 const audio = window.audio;
 
 

@@ -16,10 +16,21 @@ import { Vec2, showToast, Game } from './core/index.js';
 import { SoundManager } from './audio/SoundManager.js';
 
 // 导入实体
-import { Peg, SpecialSlot, DropBall, Enemy, Projectile } from './entities/index.js';
+import { Peg, SpecialSlot, DropBall, Enemy, Projectile, CloneSpore } from './entities/index.js';
 
 // 导入效果
-import { Particle, ParticleSystem, FloatingText, FloatingTextManager, LightningBolt, LightningManager } from './effects/index.js';
+import { 
+    Particle, 
+    ParticleSystem, 
+    FloatingText, 
+    FloatingTextManager, 
+    LightningBolt, 
+    LightningManager,
+    Shockwave,
+    EnergyOrb,
+    FireWave,
+    CollectionBeam
+} from './effects/index.js';
 
 // 导入 UI 模块
 import { UIManager } from './ui/index.js';
@@ -40,6 +51,10 @@ window.showToast = showToast;
 window.Particle = Particle;
 window.FloatingText = FloatingText;
 window.LightningBolt = LightningBolt;
+window.Shockwave = Shockwave;
+window.EnergyOrb = EnergyOrb;
+window.FireWave = FireWave;
+window.CollectionBeam = CollectionBeam;
 
 // 导出实体类到全局 (兼容原有代码)
 window.Peg = Peg;
@@ -47,89 +62,15 @@ window.SpecialSlot = SpecialSlot;
 window.DropBall = DropBall;
 window.Enemy = Enemy;
 window.Projectile = Projectile;
+window.CloneSpore = CloneSpore;
 
 // 导出 UIManager 到全局 (兼容原有代码)
 window.UIManager = UIManager;
 
-// 注意：以下类尚未迁移，需要从原始 HTML 中加载或后续迁移
-// 这些类在 Game 类中被引用，暂时使用占位类或从 window 获取
-// - CloneSpore
-// - Shockwave
-// - EnergyOrb
-// - FireWave
-// - CollectionBeam
-
-// 占位类定义 (用于兼容，待后续迁移)
-class CloneSpore {
-    constructor(sx, sy, tx, ty, callback) {
-        this.startX = sx;
-        this.startY = sy;
-        this.targetX = tx;
-        this.targetY = ty;
-        this.callback = callback;
-        this.active = true;
-    }
-    update() {}
-    draw(ctx) {}
-}
-
-class Shockwave {
-    constructor(x, y, color) {
-        this.x = x;
-        this.y = y;
-        this.color = color;
-        this.radius = 0;
-        this.alpha = 1;
-    }
-    update(timeScale) { this.radius += 5 * timeScale; this.alpha -= 0.02 * timeScale; }
-    draw(ctx) {}
-}
-
-class EnergyOrb {
-    constructor(x, y) {
-        this.pos = new Vec2(x, y);
-        this.active = true;
-    }
-    update(timeScale) {}
-    draw(ctx) {}
-}
-
-class FireWave {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.active = true;
-    }
-    update(timeScale) {}
-    draw(ctx) {}
-}
-
-class CollectionBeam {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.active = true;
-    }
-    update() {}
-    draw(ctx) {}
-}
-
-// 导出占位类到全局
-window.CloneSpore = CloneSpore;
-window.Shockwave = Shockwave;
-window.EnergyOrb = EnergyOrb;
-window.FireWave = FireWave;
-window.CollectionBeam = CollectionBeam;
-
 // 创建游戏实例
-// 注意：完整的 Game 类已从原始代码迁移
-// Projectile 类已完成迁移
-// UIManager 类已完成迁移
-// 但由于依赖的其他类（如 CloneSpore 等）尚未完全迁移
-// 游戏可能无法完全正常运行，需要后续继续迁移工作
 const game = new Game();
 window.game = game;
 
-console.log('Echo Alchemist initialized with migrated Game class, Projectile class, and UIManager class');
+console.log('Echo Alchemist initialized with all core modules integrated');
 
-export { game, Game, Enemy, DropBall, Projectile, UIManager };
+export { game, Game, Enemy, DropBall, Projectile, UIManager, CloneSpore, Shockwave, EnergyOrb, FireWave, CollectionBeam };

@@ -914,28 +914,27 @@
 
         .relic-card.cursed { border-color: #ef4444; } /* 红色 */
         .relic-card.cursed:hover { box-shadow: 0 10px 30px -10px rgba(239, 68, 68, 0.4); }
-         /* --- 针对移动端横屏/矮屏幕的终极适配 --- */
+        /* --- 针对移动端横屏/矮屏幕的终极适配 --- */
         @media (max-height: 600px) {
-                .select-card {
-                    height: 90px; /* 矮屏模式下卡片变矮 */
-                }
-                .select-icon {
-                    width: 32px; height: 32px; margin-bottom: 2px;
-                }
-                #phase-selection p {
-                    margin-bottom: 4px; /* 压缩文字间距 */
-                }
+            .select-card {
+                height: 90px; /* 矮屏模式下卡片变矮 */
+            }
+            .select-icon {
+                width: 32px; height: 32px; margin-bottom: 2px;
+            }
+            #phase-selection p {
+                margin-bottom: 4px; /* 压缩文字间距 */
             }
             .relic-icon { font-size: 1.8rem; margin-bottom: 2px; }
             .relic-name { font-size: 0.85rem; }
             .relic-desc { -webkit-line-clamp: 3; } /* 横屏只显示3行 */
             
             /* 调整放弃按钮的位置 */
-           #phase-relic button {
-            pointer-events: auto;
-            cursor: pointer;
-            position: relative; /* 提升层级上下文 */
-            z-index: 1000;
+            #phase-relic button {
+                pointer-events: auto;
+                cursor: pointer;
+                position: relative; /* 提升层级上下文 */
+                z-index: 1000;
+            }
         }
-        }
-    
+
