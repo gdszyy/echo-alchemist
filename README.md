@@ -1,97 +1,61 @@
-# Echo Alchemist 回聲煉金師
+# Echo V3 — 经营开放世界肉鸽：世界模拟器
 
-一款基于 HTML5 Canvas 的弹珠类 Roguelike 游戏。
+Echo V3 是一个以**晶石为核心资源、中世纪背景**下的经营 + 开放世界肉鸽游戏。其核心目标是构建一个**自发产生故事**的世界模拟器：各个部落之间的迁徙与发展、经济与商路的自动连接，最终涌现出一个完整的"社会"——所有故事都能追溯到关键个人的动机与经历。
 
-## 项目结构
+本仓库是 Echo V3 的**设计研究与规划仓库**，基于 [echov2](https://github.com/gdszyy/echo-alchemist-v2-1766564886) 的世界观设定与子弹系统，重构世界为一个四层社会模拟系统。
+
+---
+
+## 世界观核心
+
+大部分情况下人类都是灭绝的，每次只有少部分人类通过**复制人机制**重生重建文明。因此模拟的人数相对较少：大部分部落是不具备复杂智慧的**生物部落**（只有生存需求、资源需求、认首领、划领地），少数**人类**通过四层社会模拟精细运转。
+
+---
+
+## 四层社会模拟架构
+
+| 层级 | 颗粒度 | 核心机制 |
+|------|--------|----------|
+| **个体层** | 单个人/生物 | 需求驱动决策、AI 调用、常识/信念系统 |
+| **团体层** | 小团体/部落 | 权力基础与合法性、目标驱动聚合、裂变机制 |
+| **城市层** | 聚落/城市 | 晶石经济、商路自动连接、中心地理论 |
+| **世界层** | 势力/文明 | 地缘政治、迁徙、通信延迟、灭绝-重建闭环 |
+
+---
+
+## 文档结构
 
 ```
-echo-alchemist/
-├── index.html              # 主入口
-├── package.json            # 项目配置
-├── vite.config.js          # Vite 构建配置
-├── src/                    # 源代码
-│   ├── main.js             # 应用入口
-│   ├── config/             # 游戏配置
-│   ├── data/               # 静态数据
-│   ├── core/               # 核心模块
-│   ├── audio/              # 音频系统
-│   ├── entities/           # 游戏实体
-│   ├── effects/            # 视觉效果
-│   ├── ui/                 # UI 组件
-│   └── systems/            # 游戏系统
-├── styles/                 # 样式文件
-├── docs/                   # 文档
-│   └── .knowledge/         # Agent 知识库
-└── scripts/                # 开发脚本
+docs/
+├── v3_design/          # 系统设计与验收标准（各模块的涌现目标）
+│   ├── echo_v3_research_and_todo.md
+│   ├── echo_v3_module_acceptance_criteria.md
+│   ├── echo_v3_belief_system_criteria.md
+│   ├── echo_v3_group_decision_criteria.md
+│   ├── echo_v3_retroactive_backstory_criteria.md
+│   └── echo_v3_society_simulation_plan.md
+└── v3_research/        # 各领域调研原始笔记
+    ├── research_notes.md
+    ├── research_notes_belief.md
+    ├── research_notes_group.md
+    └── research_notes_retroactive.md
 ```
 
-## 快速开始
+---
 
-### 安装依赖
+## 当前阶段：预研调研期
 
-```bash
-npm install
-# 或
-pnpm install
-```
+正在针对各个模拟层面进行系统性的学术与工程调研，产出各模块的"涌现目标验收标准"。所有标准以"这个模型放入游戏后，世界会涌现出什么社会现象"为尺度，而非代码实现规范。
 
-### 开发模式
+### 待办（调研）
 
-```bash
-npm run dev
-```
+- [ ] 深入调研各类组织/政治体制类型（《群星 Stellaris》政体/国民理念/伦理轴；现实人类学从部落到国家的演化序列）
+- [ ] 调研晶石经济与商路的具体模型（ACE 经济体 ABM、中心地理论、引力模型的可行性验证）
+- [ ] 调研"故事"的形式化定义与筛选机制（Story Sifting 原型验证）
+- [ ] 调研 AI API 在个体决策中的输入/输出规范（与常识/信念系统的接口设计）
 
-### 构建生产版本
+---
 
-```bash
-npm run build
-```
+## 关联仓库
 
-### 预览构建结果
-
-```bash
-npm run preview
-```
-
-## 部署
-
-本项目支持部署到 Railway、Vercel、Netlify 等平台。
-
-### Railway 部署
-
-1. 连接 GitHub 仓库
-2. 设置构建命令: `npm run build`
-3. 设置输出目录: `dist`
-4. 部署
-
-## 技术栈
-
-- **构建工具**: Vite
-- **渲染**: HTML5 Canvas 2D
-- **音频**: Web Audio API
-- **样式**: TailwindCSS + 自定义 CSS
-
-## 开发规范
-
-详见 `docs/.knowledge/` 目录下的文档：
-
-- `PM_AGENT_README.md` - **项目管理 Agent 必读**
-- `EXECUTION_AGENT_README.md` - **执行 Agent 必读**
-
-- `PROJECT_STRUCTURE.md` - 项目结构说明
-- `CODING_STANDARDS.md` - 编码规范
-- `GAME_MECHANICS.md` - 游戏机制说明
-
-## 协作流程
-
-本项目采用 AI Agent 协作开发模式，通过 **Linear** 进行任务管理，**GitHub** 进行代码版本控制，**Manus API** 进行任务分派。
-
-**关键文档**：
-
-- `docs/HANDOVER_DOCUMENT.md` - 项目交接文档
-- `docs/workflows/TASK_DISPATCH_WORKFLOW.md` - **任务分派工作流**
-- `scripts/dispatch_task.py` - 任务分派脚本
-
-## License
-
-MIT
+- **[echov2](https://github.com/gdszyy/echo-alchemist-v2-1766564886)**：前身，包含成熟的四层世界模拟器（地幔/气候/晶石/生物）、子弹/属性系统（火冰雷激光等属性层、符文、遗物）。V3 将在此基础上重构社会模拟层。
