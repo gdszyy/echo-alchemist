@@ -16,7 +16,8 @@ globs: ["docs/v3_research/**/*.md"]
 | `research_notes.md` | 五领域综合调研（ABM/社会网络/经济商路/地缘政治/涌现叙事） |
 | `research_notes_belief.md` | 常识/信念/偏见/传说的产生与传播机制（文化演化双重继承理论等） |
 | `research_notes_group.md` | 权力基础（French & Raven）、韦伯合法统治类型、断层线裂变理论 |
-| `research_notes_retroactive.md` | 溯因推理、懒生成/WFC、ASP+LLM 混合架构、程序化叙事连贯性 |
+| `research_notes_retroactive.md` | 源因推理、懒生成/WFC、ASP+LLM 混合架构、程序化叙事连贯性 |
+| `research_notes_leadership_followership.md` | DeRue & Ashford 领导身份共构理论、五分量加权合力模型、Menger 货币自发起源 |
 
 ## 写作规范
 

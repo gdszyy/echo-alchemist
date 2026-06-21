@@ -20,6 +20,7 @@ globs: ["docs/v3_design/**/*.md"]
 | `echo_v3_economy_criteria.md` | 城市/晶石经济/商路系统：机制说明与验收标准（**待重写**：当前内容假设大城市尺度，应收敛到部落/小镇尺度） |
 | `echo_v3_geopolitics_criteria.md` | 世界/势力/地缘政治/通信延迟系统：机制说明与验收标准（**待重写**：同上，应改为生产资料—权—武力三角模型） |
 | `echo_v3_retroactive_backstory_criteria.md` | 反向推演（懒提级）系统：机制说明与验收标准 |
+| `echo_v3_leadership_followership_criteria.md` | 领导-追随关系模型：五分量加权合力（经济依赖/武力威慑/人情债/路径依赖/认可）与集体合法性：机制说明与验收标准 |
 | `echo_v3_society_simulation_plan.md` | 早期社会模拟架构草稿（仅供参考，已被上述文档取代） |
 
 ## 写作规范
