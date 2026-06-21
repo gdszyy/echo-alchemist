@@ -32,6 +32,8 @@ docs/
 │   ├── echo_v3_module_acceptance_criteria.md
 │   ├── echo_v3_belief_system_criteria.md
 │   ├── echo_v3_group_decision_criteria.md
+│   ├── echo_v3_economy_criteria.md
+│   ├── echo_v3_geopolitics_criteria.md
 │   ├── echo_v3_retroactive_backstory_criteria.md
 │   ├── echo_v3_society_simulation_plan.md
 │   └── echo_v3_leadership_followership_criteria.md  # 领导-追随关系模型验收标准
@@ -53,6 +55,7 @@ docs/
 
 - [x] 深入调研各类组织/政治体制类型 → 收敛为「领导-追随关系模型」（生产资料/武力/人情债/路径依赖/认可五分量加权合力，普适于任意尺度）
 - [ ] 调研晶石经济与商路的具体模型（ACE 经济体 ABM、中心地理论、引力模型的可行性验证）
+- [ ] **重新调研 L3/L4 模型**：当前世界观下人口不会大幅增长，最大规模为“一张地图多个部落/小镇”级别，大城市级别的复杂体制治理不适用。需采用适配“部落/小镇尺度 + 生产资料—权—武力三角”的政治人类学模型（队群/部落/酋邦制/大人物制等），重写 echo_v3_economy_criteria.md 和 echo_v3_geopolitics_criteria.md
 - [ ] 调研"故事"的形式化定义与筛选机制（Story Sifting 原型验证）
 - [ ] 调研 AI API 在个体决策中的输入/输出规范（与常识/信念系统的接口设计）
 

@@ -17,8 +17,8 @@ globs: ["docs/v3_design/**/*.md"]
 | `echo_v3_module_acceptance_criteria.md` | 全模块涌现目标验收标准总览（20 个模块） |
 | `echo_v3_belief_system_criteria.md` | 常识/信念/偏见/传说系统：机制说明与验收标准 |
 | `echo_v3_group_decision_criteria.md` | 团体决策/权力基础/合法性/裂变：机制说明与验收标准 |
-| `echo_v3_economy_criteria.md` | 城市/晶石经济/商路系统：机制说明与验收标准 |
-| `echo_v3_geopolitics_criteria.md` | 世界/势力/地缘政治/通信延迟系统：机制说明与验收标准 |
+| `echo_v3_economy_criteria.md` | 城市/晶石经济/商路系统：机制说明与验收标准（**待重写**：当前内容假设大城市尺度，应收敛到部落/小镇尺度） |
+| `echo_v3_geopolitics_criteria.md` | 世界/势力/地缘政治/通信延迟系统：机制说明与验收标准（**待重写**：同上，应改为生产资料—权—武力三角模型） |
 | `echo_v3_retroactive_backstory_criteria.md` | 反向推演（懒提级）系统：机制说明与验收标准 |
 | `echo_v3_society_simulation_plan.md` | 早期社会模拟架构草稿（仅供参考，已被上述文档取代） |
 
