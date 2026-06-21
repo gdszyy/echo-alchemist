@@ -33,12 +33,14 @@ docs/
 │   ├── echo_v3_belief_system_criteria.md
 │   ├── echo_v3_group_decision_criteria.md
 │   ├── echo_v3_retroactive_backstory_criteria.md
-│   └── echo_v3_society_simulation_plan.md
+│   ├── echo_v3_society_simulation_plan.md
+│   └── echo_v3_leadership_followership_criteria.md  # 领导-追随关系模型验收标准
 └── v3_research/        # 各领域调研原始笔记
     ├── research_notes.md
     ├── research_notes_belief.md
     ├── research_notes_group.md
-    └── research_notes_retroactive.md
+    ├── research_notes_retroactive.md
+    └── research_notes_leadership_followership.md    # 领导-追随关系模型调研笔记
 ```
 
 ---
@@ -49,7 +51,7 @@ docs/
 
 ### 待办（调研）
 
-- [ ] 深入调研各类组织/政治体制类型（《群星 Stellaris》政体/国民理念/伦理轴；现实人类学从部落到国家的演化序列）
+- [x] 深入调研各类组织/政治体制类型 → 收敛为「领导-追随关系模型」（生产资料/武力/人情债/路径依赖/认可五分量加权合力，普适于任意尺度）
 - [ ] 调研晶石经济与商路的具体模型（ACE 经济体 ABM、中心地理论、引力模型的可行性验证）
 - [ ] 调研"故事"的形式化定义与筛选机制（Story Sifting 原型验证）
 - [ ] 调研 AI API 在个体决策中的输入/输出规范（与常识/信念系统的接口设计）
